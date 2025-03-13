@@ -1,1 +1,1 @@
-# Snake_pyGame
+# Snake2
