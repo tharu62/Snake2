@@ -50,7 +50,7 @@ class Snake():
     def out_of_bound(self):
         if self.head.x == 400 or self.head.x == 0:
             return True
-        if self.head.y == 590 or self.head.y == 0:
+        if self.head.y == 590 or self.head.y == -10:
             return True
         return False
     
@@ -62,7 +62,7 @@ class Snake():
     
 def random_apple():
     apple = pygame.Rect((0, 0, 9, 9))
-    apple.move_ip(random.randint(0,3)*10, random.randint(0, 7)*10)
+    apple.move_ip(random.randint(1,3)*10, random.randint(1, 7)*10)
     return apple     
 
 
@@ -77,11 +77,29 @@ green_snake = Snake(pygame.Rect((190, 290, 9, 9)))
 apple = pygame.Rect(((200, 200, 9, 9)))
 wall = []
 
-# Set up the player and the apple on screen
+# Set up WALLMARIA
 for i in range(0, 60):
     temp = pygame.Rect((400, 0, 9, 9))
     temp.move_ip(0, 10*i)
     wall.append(temp)
+for i in range(61, 143):
+    temp = pygame.Rect((0, -10, 9, 9))
+    temp.move_ip(10*(i-61), 10)
+    wall.append(temp)
+for i in range(143, 226):
+    temp = pygame.Rect((0, 590, 9, 9))
+    temp.move_ip(10*(i-143), 0)
+    wall.append(temp)
+for i in range(226, 287):
+    temp = pygame.Rect((0, 0, 9, 9))
+    temp.move_ip(0, 10*(i-226))
+    wall.append(temp)
+for i in range(287, 348):
+    temp = pygame.Rect((800, 0, 9, 9))
+    temp.move_ip(0, 10*(i-287))
+    wall.append(temp)
+
+# Set up the player and the apple on screen
 pygame.draw.rect(screen, (255, 0, 0), apple)
 pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
 for i in green_snake.body:
@@ -91,48 +109,46 @@ update_time = 0.05
 
 # Game Loop
 run = True
+FRAME_COUNT = 0
 while run:
 
     screen.fill((0,0,0))
-    update_time = 0.05
 
     key = pygame.key.get_pressed()
     if key[pygame.K_LEFT] == True:
         dir = Direction.LEFT
-        green_snake.move(dir)
     elif key[pygame.K_RIGHT] == True:
         dir = Direction.RIGHT
-        green_snake.move(dir)
     elif key[pygame.K_UP] == True:
         dir = Direction.UP
-        green_snake.move(dir)
     elif key[pygame.K_DOWN] == True:
         dir = Direction.DOWN
-        green_snake.move(dir)
     elif key[pygame.K_SPACE] == True:
         update_time = 1
-    else:
-        green_snake.move(dir)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    
-    if green_snake.out_of_bound() or green_snake.bonk():
-        run = False
 
-    if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
-        green_snake.eat(dir)
-        apple = random_apple()   
+    FRAME_COUNT += 1
+    if FRAME_COUNT == 500:
+        green_snake.move(dir)
+        if green_snake.out_of_bound() or green_snake.bonk():
+            run = False
+        
+        if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
+            green_snake.eat(dir)
+            apple = random_apple()   
+        
+        pygame.draw.rect(screen, (255, 0, 0), apple)
+        pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
+        for i in green_snake.body:
+            pygame.draw.rect(screen, (0, 255, 0), i)
+        for i in range(0,347):
+            pygame.draw.rect(screen, (0, 0, 255), wall[i])    
 
-    pygame.draw.rect(screen, (255, 0, 0), apple)
-    pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
-    for i in green_snake.body:
-        pygame.draw.rect(screen, (0, 255, 0), i)
-    for i in range(0,60):
-        pygame.draw.rect(screen, (0, 0, 255), wall[i])    
+        pygame.display.update()
+        FRAME_COUNT = 0
 
-    pygame.display.update()
-    time.sleep(0.05)
 pygame.quit()
 
