@@ -56,3 +56,16 @@ class Snake():
             if self.head.x == i.x and self.head.y == i.y:
                 return True
         return False
+    
+    def hunt(self, apple):
+        if apple.x == self.head.x and apple.y == self.head.y:
+            # self.move(Direction.RIGHT)
+            return
+        elif apple.x > self.head.x:
+            self.move(Direction.RIGHT)
+        elif apple.x < self.head.x:
+            self.move(Direction.LEFT)
+        elif apple.y > self.head.y:
+            self.move(Direction.DOWN)
+        elif apple.y < self.head.y:
+            self.move(Direction.UP)    

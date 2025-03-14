@@ -6,8 +6,11 @@ from snake import Direction
 from pygame.locals import *
 from enum import Enum
     
-def random_apple():
-    apple = pygame.Rect(0, 0, 9, 9)
+def random_apple(n):
+    if n == 1:
+        apple = pygame.Rect(0, 0, 9, 9)
+    elif n == 2:
+        apple = pygame.Rect(410, 0, 9, 9)        
     apple.move_ip(random.randint(1,39)*10, random.randint(1, 52)*10)
     return apple     
 
@@ -92,14 +95,14 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    green_snake.move(dir)
-    if green_snake.out_of_bound() or green_snake.bonk():
-        run = False
+    # green_snake.move(dir)
+    # if green_snake.out_of_bound() or green_snake.bonk():
+    #     run = False
     
-    if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
-        green_snake.eat(dir)
-        apple = random_apple()
-        SCORE += 1   
+    # if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
+    #     green_snake.eat(dir)
+    #     apple = random_apple(1)
+    #     SCORE += 1   
     
     pygame.draw.rect(screen, (255, 0, 0), apple)
     pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
@@ -107,15 +110,21 @@ while run:
         pygame.draw.rect(screen, (0, 255, 0), i)
     
     pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
-    pygame.draw.rect(screen, (88, 57, 39), yellow_snake.head)
+    pygame.draw.rect(screen, (255, 0, 255), yellow_snake.head)
     for j in yellow_snake.body:
-        pygame.draw.rect(screen, (255, 255, 0), j)
+        pygame.draw.rect(screen, (200, 200, 0), j)
+    
+    yellow_snake.hunt(rotten_apple)
+
+    if yellow_snake.head.x == rotten_apple.x and yellow_snake.head.y == rotten_apple.y:
+        rotten_apple = random_apple(2)
+        yellow_snake.eat(dir)
 
     for i in range(0,428):
         pygame.draw.rect(screen, (0, 0, 255), wall[i])
 
     score = font.render("SCORE : "+str(SCORE), True, yellow, black)
-    screen.blit(score, (20,560))        
+    screen.blit(score, (20,555))        
 
     pygame.display.update()
 
