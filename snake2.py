@@ -7,7 +7,7 @@ from pygame.locals import *
 from enum import Enum
     
 def random_apple():
-    apple = pygame.Rect((0, 0, 9, 9))
+    apple = pygame.Rect(0, 0, 9, 9)
     apple.move_ip(random.randint(1,39)*10, random.randint(1, 52)*10)
     return apple     
 
@@ -20,43 +20,41 @@ SCREEN_HIGHT = 600
 
 screen = pygame.display.set_mode((SCREEN_WIDHT, SCREEN_HIGHT))
 
-green_snake = Snake(pygame.Rect((190, 290, 9, 9)))
-yellow_snake = Snake(pygame.Rect((590, 290, 9, 9))) 
-apple = pygame.Rect((200, 200, 9, 9))
-rotten_apple = pygame.Rect((600, 200, 9, 9))
+green_snake = Snake(pygame.Rect(190, 290, 9, 9))
+yellow_snake = Snake(pygame.Rect(590, 290, 9, 9)) 
+apple = pygame.Rect(200, 200, 9, 9)
+rotten_apple = pygame.Rect(600, 200, 9, 9)
 wall = []
 
 # Set up WALLMARIA
 for i in range(0, 60):
-    temp = pygame.Rect((400, 0, 9, 9))
+    temp = pygame.Rect(400, 0, 9, 9)
     temp.move_ip(0, 10*i)
     wall.append(temp)
 for i in range(61, 143):
-    temp = pygame.Rect((0, -10, 9, 9))
+    temp = pygame.Rect(0, -10, 9, 9)
     temp.move_ip(10*(i-61), 10)
     wall.append(temp)
 for i in range(143, 226):
-    temp = pygame.Rect((0, 530, 9, 9))
+    temp = pygame.Rect(0, 530, 9, 9)
     temp.move_ip(10*(i-143), 0)
     wall.append(temp)
 for i in range(226, 287):
-    temp = pygame.Rect((0, 0, 9, 9))
+    temp = pygame.Rect(0, 0, 9, 9)
     temp.move_ip(0, 10*(i-226))
     wall.append(temp)
 for i in range(287, 348):
-    temp = pygame.Rect((800, 0, 9, 9))
+    temp = pygame.Rect(800, 0, 9, 9)
     temp.move_ip(0, 10*(i-287))
     wall.append(temp)
 for i in range(349, 430):
-    temp = pygame.Rect((0, 590, 9, 9))
+    temp = pygame.Rect(0, 590, 9, 9)
     temp.move_ip(10*(i-349), 0)
     wall.append(temp)    
 
-# Set up the player and the apple on screen
+# Set up the apples and game parameters
 pygame.draw.rect(screen, (255, 0, 0), apple)
-pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
-for i in green_snake.body:
-    pygame.draw.rect(screen, (0, 255, 0), i)
+pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
 dir = Direction.RIGHT
 update_time = 0.05
 
@@ -107,11 +105,14 @@ while run:
     pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
     for i in green_snake.body:
         pygame.draw.rect(screen, (0, 255, 0), i)
+    
+    pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
+    pygame.draw.rect(screen, (88, 57, 39), yellow_snake.head)
+    for j in yellow_snake.body:
+        pygame.draw.rect(screen, (255, 255, 0), j)
+
     for i in range(0,428):
         pygame.draw.rect(screen, (0, 0, 255), wall[i])
-
-    pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
-    pygame.draw.rect(screen, (255, 255, 0), yellow_snake.head)
 
     score = font.render("SCORE : "+str(SCORE), True, yellow, black)
     screen.blit(score, (20,560))        

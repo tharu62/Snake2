@@ -9,12 +9,11 @@ class Direction(Enum):
     LEFT = 4
 
 class Snake():
-    head = Rect
-    body = []
 
     def __init__(self, head):
         self.head = head
-        self.body.append(Rect((head.x+10, head.y+10, 9, 9)))
+        self.body = []
+        self.body.append(pygame.Rect(head.x+10, head.y, 9, 9))
 
     def move(self, direction):
         self.body[0].x = self.head.x
@@ -33,7 +32,7 @@ class Snake():
                 self.head.move_ip(10, 0)
 
     def eat(self, direction):
-        tail = Rect((self.body[len(self.body)-1].x, self.body[len(self.body)-1].y, 9 ,9))
+        tail = Rect(self.body[len(self.body)-1].x, self.body[len(self.body)-1].y, 9 ,9)
         match direction:
             case Direction.UP:
                 tail.move_ip(0, 10)
