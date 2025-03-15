@@ -1,5 +1,7 @@
-from turtle import down
+from re import A
+from turtle import down, update
 import pygame
+import algorithms
 from pygame.locals import *
 from enum import Enum
 
@@ -16,6 +18,7 @@ class Snake():
         self.head = head
         self.body = []
         self.body.append(pygame.Rect(head.x+10, head.y, 9, 9))
+        self.map =  [[1]*54]*41
 
     def move(self, direction):
         self.body[0].x = self.head.x
@@ -131,8 +134,53 @@ class Snake():
     
     # Implement the A* algorithm to find the shortest path to the apple
     def A_star_hunt(self, apple, wall, forest):
-        
+        if self.is_close_to(apple):
+            self.hunt(apple, wall, forest)
+            return
+        src =[self.head.x//10-41, self.head.y//10]
+        dest = [apple.x//10-41, apple.y//10]
+        self.update_map(wall, forest)
+        next_step = algorithms.a_star_search(self.map, src, dest)
+        if next_step[0][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y+10:
+            self.move(Direction.DOWN)
+        elif next_step[0][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y-10:
+            self.move(Direction.UP)
+        elif next_step[0][0]*10 == self.head.x+10-410 and next_step[1][1]*10 == self.head.y:
+            self.move(Direction.RIGHT)
+        elif next_step[0][0]*10 == self.head.x-10-410 and next_step[1][1]*10 == self.head.y:
+            self.move(Direction.LEFT)
+ 
+        self.hunt(apple, wall, forest)
         return
+    
+    def update_map(self, wall, forest):
+        for i in range(0, 40):
+            for j in range(0, 53):
+                for k in self.body:
+                    if (k.x-410) == i*10 and k.y == j*10:
+                        self.map[i][j] = 0
+                for k in wall:
+                    if (k.x-410) == i*10 and k.y == j*10:
+                        self.map[i][j] = 0
+                for k in forest:
+                    if (k.x-410) == i*10 and k.y == j*10:
+                        self.map[i][j] = 0
+                self.map[i][j] = 1
+
+    def is_close_to(self, apple):
+        if (self.head.x - apple.x) == 10:
+            if self.head.y == apple.y:
+                return True
+        elif (self.head.x - apple.x) == -10:
+            if self.head.y == apple.y:
+                return True
+        if (self.head.y - apple.y) == 10:
+            if self.head.x == apple.x:
+                return True
+        if (self.head.y - apple.y) == -10:
+            if self.head.x == apple.x:
+                return True
+        return False
     
     # Implement the Dijkstra algorithm to find the shortest path to the apple
     def Dijkstra_hunt(self, apple, wall, forest):

@@ -102,17 +102,20 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    green_snake.move(dir)
-    if green_snake.out_of_bound() or green_snake.bonk() or green_snake.hit_obstacle(forest):
-        run = False
-        break
+    # green_snake.move(dir)
+    # if green_snake.out_of_bound() or green_snake.bonk() or green_snake.hit_obstacle(forest):
+    #     run = False
+    #     break
 
-    if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
-        green_snake.eat()
-        apple = random_apple(1)
-        SCORE += 1   
+    # if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
+    #     green_snake.eat()
+    #     apple = random_apple(1)
+    #     SCORE += 1   
 
-    yellow_snake.hunt(rotten_apple, wall, rotten_forest)
+    # yellow_snake.hunt(rotten_apple, wall, rotten_forest)
+    
+    yellow_snake.A_star_hunt(rotten_apple, wall, rotten_forest)
+
     if yellow_snake.head.x == rotten_apple.x and yellow_snake.head.y == rotten_apple.y:
         rotten_apple = random_apple(2)
         yellow_snake.eat()
