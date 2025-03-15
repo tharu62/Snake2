@@ -41,29 +41,35 @@ forest = []
 rotten_forest = []
 
 # Set up WALLMARIA
+# muro centrale verticale
 for i in range(0, 60):
     temp = pygame.Rect(400, 0, 9, 9)
     temp.move_ip(0, 10*i)
     wall.append(temp)
-for i in range(61, 143):
-    temp = pygame.Rect(0, -10, 9, 9)
-    temp.move_ip(10*(i-61), 10)
-    wall.append(temp)
-for i in range(143, 226):
-    temp = pygame.Rect(0, 530, 9, 9)
-    temp.move_ip(10*(i-143), 0)
-    wall.append(temp)
-for i in range(226, 287):
+# muro superiore 
+for i in range(60, 141):
     temp = pygame.Rect(0, 0, 9, 9)
-    temp.move_ip(0, 10*(i-226))
+    temp.move_ip(10*(i-61), 0)
     wall.append(temp)
-for i in range(287, 348):
+# muro centrale orizzontale 
+for i in range(141, 222):
+    temp = pygame.Rect(0, 530, 9, 9)
+    temp.move_ip(10*(i-141), 0)
+    wall.append(temp)
+# muro laterale sinistro   
+for i in range(222, 282):
+    temp = pygame.Rect(0, 0, 9, 9)
+    temp.move_ip(0, 10*(i-222))
+    wall.append(temp)
+# muro laterale destro
+for i in range(282, 342):
     temp = pygame.Rect(800, 0, 9, 9)
-    temp.move_ip(0, 10*(i-287))
+    temp.move_ip(0, 10*(i-282))
     wall.append(temp)
-for i in range(349, 430):
+# muro inferiore orizzontale    
+for i in range(342, 423):
     temp = pygame.Rect(0, 590, 9, 9)
-    temp.move_ip(10*(i-349), 0)
+    temp.move_ip(10*(i-342), 0)
     wall.append(temp)    
 
 # Set up the apples and game parameters
@@ -115,6 +121,10 @@ while run:
     # yellow_snake.hunt(rotten_apple, wall, rotten_forest)
     
     yellow_snake.A_star_hunt(rotten_apple, wall, rotten_forest)
+    for i in range(0, 41):
+        for j in range(0, 53):
+            if yellow_snake.map[i][j] == 0:
+                pygame.draw.rect(screen, (255, 255, 0), pygame.Rect(i*10, j*10, 9, 9))
 
     if yellow_snake.head.x == rotten_apple.x and yellow_snake.head.y == rotten_apple.y:
         rotten_apple = random_apple(2)
@@ -123,11 +133,12 @@ while run:
         rotten_forest.append(random_obstacle(2))
         CPU_SCORE += 1
     
-    pygame.draw.rect(screen, (255, 0, 0), apple)
-    pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
-    for i in green_snake.body:
-        pygame.draw.rect(screen, (0, 200, 0), i)
+    # pygame.draw.rect(screen, (255, 0, 0), apple)
+    # pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
+    # for i in green_snake.body:
+    #     pygame.draw.rect(screen, (0, 200, 0), i)
     
+
     pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
     pygame.draw.rect(screen, (255, 0, 255), yellow_snake.head)
     for j in yellow_snake.body:
@@ -137,8 +148,8 @@ while run:
         pygame.draw.rect(screen, (0, 0, 255), i)
     for i in rotten_forest:
         pygame.draw.rect(screen, (55, 55, 55), i)
-    for i in forest:    
-        pygame.draw.rect(screen, (0, 100, 0), i)
+    # for i in forest:    
+    #     pygame.draw.rect(screen, (0, 100, 0), i)
 
     score = font.render("SCORE : "+str(SCORE), True, (0, 255, 0), (0, 0, 0))
     cpu_score = font.render("CPU SCORE : "+str(CPU_SCORE), True, (255, 255, 0), (0, 0, 0))
@@ -147,10 +158,7 @@ while run:
 
     pygame.display.update()
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()  
+pygame.quit()
+
 
 

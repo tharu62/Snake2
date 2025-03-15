@@ -18,7 +18,7 @@ class Snake():
         self.head = head
         self.body = []
         self.body.append(pygame.Rect(head.x+10, head.y, 9, 9))
-        self.map =  [[1]*54]*41
+        self.map =  [[1]*54 for i in range(41)]
 
     def move(self, direction):
         self.body[0].x = self.head.x
@@ -37,8 +37,10 @@ class Snake():
                 self.head.move_ip(10, 0)
 
     def eat(self):
-        tail = Rect(self.head.x, self.head.y, 9 ,9)   
-        if len(self.body) == 1:         
+        tail = Rect(0, 0, 9 ,9)   
+        if len(self.body) == 1:
+            tail.x = self.body[0].x
+            tail.y = self.body[0].y         
             if self.body[0].x == self.head.x:
                 if self.body[0].y > self.head.y:
                     tail.move_ip(0, -10)
@@ -141,31 +143,35 @@ class Snake():
         dest = [apple.x//10-41, apple.y//10]
         self.update_map(wall, forest)
         next_step = algorithms.a_star_search(self.map, src, dest)
+        if next_step == None:
+            return
         if next_step[0][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y+10:
             self.move(Direction.DOWN)
+            return
         elif next_step[0][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y-10:
             self.move(Direction.UP)
+            return
         elif next_step[0][0]*10 == self.head.x+10-410 and next_step[1][1]*10 == self.head.y:
             self.move(Direction.RIGHT)
+            return
         elif next_step[0][0]*10 == self.head.x-10-410 and next_step[1][1]*10 == self.head.y:
             self.move(Direction.LEFT)
- 
+            return
         self.hunt(apple, wall, forest)
         return
     
     def update_map(self, wall, forest):
         for i in range(0, 40):
             for j in range(0, 53):
-                for k in self.body:
-                    if (k.x-410) == i*10 and k.y == j*10:
-                        self.map[i][j] = 0
-                for k in wall:
-                    if (k.x-410) == i*10 and k.y == j*10:
-                        self.map[i][j] = 0
-                for k in forest:
-                    if (k.x-410) == i*10 and k.y == j*10:
-                        self.map[i][j] = 0
                 self.map[i][j] = 1
+        for i in self.body:
+            self.map[(i.x-410)//10][i.y//10] = 0
+        for i in wall:
+            if i.x > 400 and i.y < 530:
+                self.map[(i.x-400)//10][i.y//10] = 0
+        for i in forest:
+            self.map[(i.x-410)//10][i.y//10] = 0
+        return        
 
     def is_close_to(self, apple):
         if (self.head.x - apple.x) == 10:
@@ -184,6 +190,5 @@ class Snake():
     
     # Implement the Dijkstra algorithm to find the shortest path to the apple
     def Dijkstra_hunt(self, apple, wall, forest):
-            
         return
     

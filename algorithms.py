@@ -68,8 +68,7 @@ def trace_path(cell_details, dest):
 def a_star_search(grid, src, dest):
     # Check if the source and destination are valid
     if not is_valid(src[0], src[1]) or not is_valid(dest[0], dest[1]):
-        print("Source or destination is invalid")
-        print("err 1")
+        # print("Source or destination is invalid")
         return
 
     # Check if the source and destination are unblocked
