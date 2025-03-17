@@ -1,7 +1,7 @@
 import pygame
 import random
-from snake import Snake
-from snake import Direction
+from src.snake import Snake
+from src.snake import Direction
 from pygame.locals import *
 from enum import Enum
     
