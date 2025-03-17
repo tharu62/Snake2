@@ -47,20 +47,50 @@ def random_apple(n):
     return rand_apple     
 
 def random_obstacle(n):
+    obstacle_is_on_snake = True
     if n == 1:
         obstacle = pygame.Rect(0, 0, 9, 9)
     elif n == 2:
         obstacle = pygame.Rect(410, 0, 9, 9)        
-    obstacle.move_ip(random.randint(1,38)*10, random.randint(1, 52)*10)
+    while obstacle_is_on_snake:
+        if n == 1:
+            obstacle.x = 0
+            obstacle.y = 0
+            obstacle.move_ip(random.randint(1,38)*10, random.randint(1, 52)*10)
+            obstacle_is_on_snake = False
+            if obstacle.x == green_snake.head.x and obstacle.y == green_snake.head.y:
+                obstacle_is_on_snake = True
+            for i in green_snake.body:
+                if obstacle.x == i.x and obstacle.y == i.y:
+                    obstacle_is_on_snake = True
+                    break
+            for i in forest:
+                if obstacle.x == i.x and obstacle.y == i.y:
+                    obstacle_is_on_snake = True        
+                    break
+        elif n == 2:
+            obstacle.x = 410
+            obstacle.y = 0
+            obstacle.move_ip(random.randint(1,38)*10, random.randint(1, 52)*10)
+            obstacle_is_on_snake = False
+            if obstacle.x == yellow_snake.head.x and obstacle.y == yellow_snake.head.y:
+                obstacle_is_on_snake = True
+            for i in yellow_snake.body:
+                if obstacle.x == i.x and obstacle.y == i.y:
+                    obstacle_is_on_snake = True
+                    break
+            for i in rotten_forest:
+                if obstacle.x == i.x and obstacle.y == i.y:
+                    obstacle_is_on_snake = True        
+                    break
+    # obstacle.move_ip(random.randint(1,38)*10, random.randint(1, 52)*10)
     return obstacle
 
 pygame.init()
 
 timer = pygame.time.Clock()
-
 SCREEN_WIDHT = 810
 SCREEN_HIGHT = 600
-
 screen = pygame.display.set_mode((SCREEN_WIDHT, SCREEN_HIGHT))
 
 green_snake = Snake(pygame.Rect(190, 290, 9, 9))
@@ -146,6 +176,7 @@ while run:
 
     if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
         green_snake.eat()
+        forest.append(random_obstacle(1))
         apple = random_apple(1)
         SCORE += 1   
     
@@ -162,9 +193,8 @@ while run:
     yellow_snake.A_star_hunt(rotten_apple, wall, rotten_forest)
 
     if yellow_snake.head.x == rotten_apple.x and yellow_snake.head.y == rotten_apple.y:
-        rotten_apple = random_apple(2)
-        forest.append(random_obstacle(1))
         rotten_forest.append(random_obstacle(2))
+        rotten_apple = random_apple(2)
         CPU_SCORE += 1
     
     pygame.draw.rect(screen, (255, 0, 0), apple)
@@ -195,6 +225,3 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-
-
-

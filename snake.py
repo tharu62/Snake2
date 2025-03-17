@@ -47,33 +47,6 @@ class Snake():
 
     def eat(self):
         tail = pygame.Rect(0, 0, 9 ,9)   
-        # if len(self.body) == 1:
-        #     tail.x = self.body[0].x
-        #     tail.y = self.body[0].y         
-        #     if self.body[0].x == self.head.x:
-        #         if self.body[0].y > self.head.y:
-        #             tail.move_ip(0, 10)
-        #         else:
-        #             tail.move_ip(0, -10)
-        #     else:
-        #         if self.body[0].x > self.head.x:
-        #             tail.move_ip(10, 0)
-        #         else:
-        #             tail.move_ip(-10, 0) 
-        # else:
-        #     n = len(self.body)-1
-        #     tail.x = self.body[n].x
-        #     tail.y = self.body[n].y
-        #     if self.body[n].x == self.body[n-1].x:
-        #         if self.body[n].y > self.body[n-1].y:
-        #             tail.move_ip(0, 10)
-        #         else:
-        #             tail.move_ip(0, -10)
-        #     else:
-        #         if self.body[n].x > self.body[n-1].x:
-        #             tail.move_ip(10, 0)
-        #         else:
-        #             tail.move_ip(-10, 0)    
         self.body.append(tail)
 
     def out_of_bound(self):
@@ -126,7 +99,9 @@ class Snake():
             if self.head.x == i.x and self.head.y-10 == i.y:
                 up = False
             if self.head.x == i.x and self.head.y+10 == i.y:
-                down = False              
+                down = False
+        if self.is_close_to(apple):
+            self.eat()              
         if apple.x > self.head.x and right:
             self.move(Direction.RIGHT)
         elif apple.x < self.head.x and left:
@@ -177,6 +152,10 @@ class Snake():
             self.move(Direction.LEFT)
             return
     
+    # Implement the Dijkstra algorithm to find the shortest path to the apple
+    def Dijkstra_hunt(self, apple, wall, forest):
+        return
+    
     def update_map(self, wall, forest):
         for i in range(0, 40):
             for j in range(0, 53):
@@ -205,7 +184,4 @@ class Snake():
                 return True
         return False
     
-    # Implement the Dijkstra algorithm to find the shortest path to the apple
-    def Dijkstra_hunt(self, apple, wall, forest):
-        return
     
