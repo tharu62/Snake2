@@ -1,7 +1,5 @@
 import pygame
-import time
 import random
-import numpy
 from snake import Snake
 from snake import Direction
 from pygame.locals import *
@@ -224,4 +222,5 @@ while run:
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
+            # pygame.quit()
+            exit()
