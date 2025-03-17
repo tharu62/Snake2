@@ -160,9 +160,9 @@ class Snake():
 
         if self.is_close_to(apple):
             self.eat()
-            
+
         if next_step == None:
-            print("NONE")
+            # print("NONE")
             return
         if next_step[1][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y+10:
             self.move(Direction.DOWN)

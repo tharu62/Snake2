@@ -25,6 +25,10 @@ def random_apple(n):
                 if rand_apple.x == i.x and rand_apple.y == i.y:
                     apple_is_on_snake = True
                     break
+            for i in forest:
+                if rand_apple.x == i.x and rand_apple.y == i.y:
+                    apple_is_on_snake = True        
+                    break
         elif n == 2:
             rand_apple.x = 410
             rand_apple.y = 0
@@ -35,6 +39,10 @@ def random_apple(n):
             for i in yellow_snake.body:
                 if rand_apple.x == i.x and rand_apple.y == i.y:
                     apple_is_on_snake = True
+                    break
+            for i in rotten_forest:
+                if rand_apple.x == i.x and rand_apple.y == i.y:
+                    apple_is_on_snake = True        
                     break
     return rand_apple     
 
@@ -131,15 +139,15 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    # green_snake.move(dir)
-    # if green_snake.out_of_bound() or green_snake.bonk() or green_snake.hit_obstacle(forest):
-    #     run = False
-    #     break
+    green_snake.move(dir)
+    if green_snake.out_of_bound() or green_snake.bonk() or green_snake.hit_obstacle(forest):
+        run = False
+        break
 
-    # if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
-    #     green_snake.eat()
-    #     apple = random_apple(1)
-    #     SCORE += 1   
+    if green_snake.head.x == apple.x and green_snake.head.y == apple.y:
+        green_snake.eat()
+        apple = random_apple(1)
+        SCORE += 1   
     
     # this is the code to visualize the path of A_Star_hunt on the map
     # pygame.draw.rect(screen, (255, 0, 255), Rect(yellow_snake.head.x-410, yellow_snake.head.y, 9, 9))
@@ -155,7 +163,6 @@ while run:
 
     if yellow_snake.head.x == rotten_apple.x and yellow_snake.head.y == rotten_apple.y:
         rotten_apple = random_apple(2)
-        # yellow_snake.eat()
         forest.append(random_obstacle(1))
         rotten_forest.append(random_obstacle(2))
         CPU_SCORE += 1
@@ -165,10 +172,10 @@ while run:
     for i in green_snake.body:
         pygame.draw.rect(screen, (0, 200, 0), i)
     
+    pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
     pygame.draw.rect(screen, (255, 0, 255), yellow_snake.head)
     for j in yellow_snake.body:
         pygame.draw.rect(screen, (200, 200, 0), j)
-    pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
     
     for i in wall:
         pygame.draw.rect(screen, (0, 0, 255), i)
@@ -184,7 +191,10 @@ while run:
 
     pygame.display.update()
 
-pygame.quit()
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
 
 
 

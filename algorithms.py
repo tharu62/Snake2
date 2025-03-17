@@ -19,8 +19,8 @@ class Cell:
 
 
 # Define the size of the grid
-ROW = 42
-COL = 54
+ROW = 41
+COL = 53
 
 
 # Check if a cell is valid (within the grid)
@@ -73,10 +73,10 @@ def a_star_search(grid, src, dest):
 
     # Check if the source and destination are unblocked
     if not is_unblocked(grid, src[0], src[1]) or not is_unblocked(grid, dest[0], dest[1]):
-        if not is_unblocked(grid, src[0], src[1]):
-            print("Source is blocked")
-        if not is_unblocked(grid, dest[0], dest[1]):
-            print("Destination is blocked")
+        # if not is_unblocked(grid, src[0], src[1]):
+        #     print("Source is blocked")
+        # if not is_unblocked(grid, dest[0], dest[1]):
+        #     print("Destination is blocked")
         # print("Source or the destination is blocked")
         return
 
@@ -153,6 +153,7 @@ def a_star_search(grid, src, dest):
 
     # If the destination is not found after visiting all cells
     if not found_dest:
-        print("Failed to find the destination cell")
+        # print("Failed to find the destination cell")
+        return
 
 
