@@ -19,13 +19,20 @@ class Snake():
         self.body = []
         self.body.append(pygame.Rect(head.x+10, head.y, 9, 9))
         self.map =  [[1]*54 for i in range(41)]
+        # this piece of code is for testing the A* algorithm and see the path constructed by the algorithm 
+        # self.temp_map = [[1]*54 for i in range(41)]
 
     def move(self, direction):
+        if len(self.body) > 1:
+            if len(self.body) == 2:
+                self.body[1].x = self.body[0].x
+                self.body[1].y = self.body[0].y
+            else:
+                for i in reversed(range(1, len(self.body)-1)):
+                    self.body[i].x = self.body[i-1].x
+                    self.body[i].y = self.body[i-1].y
         self.body[0].x = self.head.x
-        self.body[0].y = self.head.y
-        for i in range(0, len(self.body)-1):
-            self.body[len(self.body)-1-i].x = self.body[len(self.body)-2-i].x
-            self.body[len(self.body)-1-i].y = self.body[len(self.body)-2-i].y
+        self.body[0].y = self.head.y 
         match direction:
             case Direction.UP:
                 self.head.move_ip(0, -10)
@@ -35,35 +42,38 @@ class Snake():
                 self.head.move_ip(-10, 0)
             case Direction.RIGHT:
                 self.head.move_ip(10, 0)
+            case Direction.NONE:
+                pass
 
     def eat(self):
-        tail = Rect(0, 0, 9 ,9)   
-        if len(self.body) == 1:
-            tail.x = self.body[0].x
-            tail.y = self.body[0].y         
-            if self.body[0].x == self.head.x:
-                if self.body[0].y > self.head.y:
-                    tail.move_ip(0, -10)
-                else:
-                    tail.move_ip(0, 10)
-            else:
-                if self.body[0].x > self.head.x:
-                    tail.move_ip(10, 0)
-                else:
-                    tail.move_ip(-10, 0) 
-        else:
-            tail.x = self.body[len(self.body)-1].x
-            tail.y = self.body[len(self.body)-1].y
-            if self.body[len(self.body)-1].x == self.body[len(self.body)-2].x:
-                if self.body[len(self.body)-1].y > self.body[len(self.body)-2].y:
-                    tail.move_ip(0, -10)
-                else:
-                    tail.move_ip(0, 10)
-            else:
-                if self.body[len(self.body)-1].x > self.body[len(self.body)-2].x:
-                    tail.move_ip(10, 0)
-                else:
-                    tail.move_ip(-10, 0)    
+        tail = pygame.Rect(0, 0, 9 ,9)   
+        # if len(self.body) == 1:
+        #     tail.x = self.body[0].x
+        #     tail.y = self.body[0].y         
+        #     if self.body[0].x == self.head.x:
+        #         if self.body[0].y > self.head.y:
+        #             tail.move_ip(0, 10)
+        #         else:
+        #             tail.move_ip(0, -10)
+        #     else:
+        #         if self.body[0].x > self.head.x:
+        #             tail.move_ip(10, 0)
+        #         else:
+        #             tail.move_ip(-10, 0) 
+        # else:
+        #     n = len(self.body)-1
+        #     tail.x = self.body[n].x
+        #     tail.y = self.body[n].y
+        #     if self.body[n].x == self.body[n-1].x:
+        #         if self.body[n].y > self.body[n-1].y:
+        #             tail.move_ip(0, 10)
+        #         else:
+        #             tail.move_ip(0, -10)
+        #     else:
+        #         if self.body[n].x > self.body[n-1].x:
+        #             tail.move_ip(10, 0)
+        #         else:
+        #             tail.move_ip(-10, 0)    
         self.body.append(tail)
 
     def out_of_bound(self):
@@ -136,29 +146,36 @@ class Snake():
     
     # Implement the A* algorithm to find the shortest path to the apple
     def A_star_hunt(self, apple, wall, forest):
-        if self.is_close_to(apple):
-            self.hunt(apple, wall, forest)
-            return
         src =[self.head.x//10-41, self.head.y//10]
         dest = [apple.x//10-41, apple.y//10]
         self.update_map(wall, forest)
         next_step = algorithms.a_star_search(self.map, src, dest)
+        
+        # this piece of code is for testing the A* algorithm and see the path constructed by the algorithm
+        # for i in range(0, 41):
+        #     for j in range(0, 53):
+        #         self.temp_map[i][j] = 1
+        # for i in next_step:
+        #     self.temp_map[i[0]][i[1]] = 0
+
+        if self.is_close_to(apple):
+            self.eat()
+            
         if next_step == None:
+            print("NONE")
             return
-        if next_step[0][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y+10:
+        if next_step[1][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y+10:
             self.move(Direction.DOWN)
             return
-        elif next_step[0][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y-10:
+        elif next_step[1][0]*10 == self.head.x-410 and next_step[1][1]*10 == self.head.y-10:
             self.move(Direction.UP)
             return
-        elif next_step[0][0]*10 == self.head.x+10-410 and next_step[1][1]*10 == self.head.y:
+        elif next_step[1][0]*10 == self.head.x-410+10 and next_step[1][1]*10 == self.head.y:
             self.move(Direction.RIGHT)
             return
-        elif next_step[0][0]*10 == self.head.x-10-410 and next_step[1][1]*10 == self.head.y:
+        elif next_step[1][0]*10 == self.head.x-410-10 and next_step[1][1]*10 == self.head.y:
             self.move(Direction.LEFT)
             return
-        self.hunt(apple, wall, forest)
-        return
     
     def update_map(self, wall, forest):
         for i in range(0, 40):

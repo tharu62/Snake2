@@ -8,12 +8,35 @@ from pygame.locals import *
 from enum import Enum
     
 def random_apple(n):
+    apple_is_on_snake = True
     if n == 1:
-        apple = pygame.Rect(0, 0, 9, 9)
+        rand_apple = pygame.Rect(0, 0, 9, 9)
     elif n == 2:
-        apple = pygame.Rect(410, 0, 9, 9)        
-    apple.move_ip(random.randint(1,37)*10, random.randint(1, 52)*10)
-    return apple     
+        rand_apple = pygame.Rect(410, 0, 9, 9)        
+    while apple_is_on_snake:
+        if n == 1:
+            rand_apple.x = 0
+            rand_apple.y = 0
+            rand_apple.move_ip(random.randint(1,37)*10, random.randint(1, 52)*10)
+            apple_is_on_snake = False
+            if rand_apple.x == green_snake.head.x and rand_apple.y == green_snake.head.y:
+                apple_is_on_snake = True
+            for i in green_snake.body:
+                if rand_apple.x == i.x and rand_apple.y == i.y:
+                    apple_is_on_snake = True
+                    break
+        elif n == 2:
+            rand_apple.x = 410
+            rand_apple.y = 0
+            rand_apple.move_ip(random.randint(1,37)*10, random.randint(1, 52)*10)
+            apple_is_on_snake = False
+            if rand_apple.x == yellow_snake.head.x and rand_apple.y == yellow_snake.head.y:
+                apple_is_on_snake = True
+            for i in yellow_snake.body:
+                if rand_apple.x == i.x and rand_apple.y == i.y:
+                    apple_is_on_snake = True
+                    break
+    return rand_apple     
 
 def random_obstacle(n):
     if n == 1:
@@ -40,7 +63,7 @@ wall = []
 forest = []
 rotten_forest = []
 
-# Set up WALLMARIA
+# Set up the walls that trap the snakes
 # muro centrale verticale
 for i in range(0, 60):
     temp = pygame.Rect(400, 0, 9, 9)
@@ -117,39 +140,42 @@ while run:
     #     green_snake.eat()
     #     apple = random_apple(1)
     #     SCORE += 1   
-
-    # yellow_snake.hunt(rotten_apple, wall, rotten_forest)
     
+    # this is the code to visualize the path of A_Star_hunt on the map
+    # pygame.draw.rect(screen, (255, 0, 255), Rect(yellow_snake.head.x-410, yellow_snake.head.y, 9, 9))
+    # for i in range(0, 41):
+    #     for j in range(0, 53):
+    #         if yellow_snake.temp_map[i][j] == 0:
+    #             pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(i*10+410, j*10, 9, 9))
+
+    # uncomment the type of hunt you want to use
+    # yellow_snake.hunt(rotten_apple, wall, rotten_forest)
+    # yellow_snake.Dijkstra_hunt(rotten_apple, wall, rotten_forest)
     yellow_snake.A_star_hunt(rotten_apple, wall, rotten_forest)
-    for i in range(0, 41):
-        for j in range(0, 53):
-            if yellow_snake.map[i][j] == 0:
-                pygame.draw.rect(screen, (255, 255, 0), pygame.Rect(i*10, j*10, 9, 9))
 
     if yellow_snake.head.x == rotten_apple.x and yellow_snake.head.y == rotten_apple.y:
         rotten_apple = random_apple(2)
-        yellow_snake.eat()
+        # yellow_snake.eat()
         forest.append(random_obstacle(1))
         rotten_forest.append(random_obstacle(2))
         CPU_SCORE += 1
     
-    # pygame.draw.rect(screen, (255, 0, 0), apple)
-    # pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
-    # for i in green_snake.body:
-    #     pygame.draw.rect(screen, (0, 200, 0), i)
+    pygame.draw.rect(screen, (255, 0, 0), apple)
+    pygame.draw.rect(screen, (255, 255, 0), green_snake.head)
+    for i in green_snake.body:
+        pygame.draw.rect(screen, (0, 200, 0), i)
     
-
-    pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
     pygame.draw.rect(screen, (255, 0, 255), yellow_snake.head)
     for j in yellow_snake.body:
         pygame.draw.rect(screen, (200, 200, 0), j)
+    pygame.draw.rect(screen, (128, 0, 128), rotten_apple)   
     
     for i in wall:
         pygame.draw.rect(screen, (0, 0, 255), i)
     for i in rotten_forest:
         pygame.draw.rect(screen, (55, 55, 55), i)
-    # for i in forest:    
-    #     pygame.draw.rect(screen, (0, 100, 0), i)
+    for i in forest:    
+        pygame.draw.rect(screen, (0, 100, 0), i)
 
     score = font.render("SCORE : "+str(SCORE), True, (0, 255, 0), (0, 0, 0))
     cpu_score = font.render("CPU SCORE : "+str(CPU_SCORE), True, (255, 255, 0), (0, 0, 0))
