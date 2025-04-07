@@ -8,7 +8,9 @@ To set the path finding algorithm it is require to un-comment some code on the S
 The game is already released with the A star algorithm with a launch ready executable.
 
 ## Install
-To build the python executable after un-commenting the necessary code on snake2.py, run this command using pyinstaller in the Snake2 folder:
+To build the python executable from source code: 
+-- clone this repo in a folder
+-- run this command using pyinstaller in the chosen folder:
 ```bash
 pyinstaller -F .\src\snake2.py .\src\snake.py .\src\algorithms.py
 ```
