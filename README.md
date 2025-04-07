@@ -9,8 +9,8 @@ The game is already released with the A star algorithm with a launch ready execu
 
 ## Install
 To build the python executable from source code: 
--- clone this repo in a folder
--- run this command using pyinstaller in the chosen folder:
+- clone this repo in a folder
+- run this command using pyinstaller in the chosen folder:
 ```bash
 pyinstaller -F .\src\snake2.py .\src\snake.py .\src\algorithms.py
 ```
