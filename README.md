@@ -7,7 +7,7 @@ To set the path finding algorithm it is require to un-comment some code on the S
 
 The game is already released with the A star algorithm with a launch ready executable.
 
-The snake can be controller with direction keys and the game can be paused with the "p" key.
+The snake can be controller with arrow keys and the game can be paused with the "p" key.
 
 ## Install
 To build the python executable from source code: 
