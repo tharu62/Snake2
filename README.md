@@ -7,9 +7,12 @@ To set the path finding algorithm it is require to un-comment some code on the S
 
 The game is already released with the A star algorithm with a launch ready executable.
 
+The snake can be controller with direction keys and the game can be paused with the "p" key.
+
 ## Install
 To build the python executable from source code: 
 - clone this repo in a folder
+- delete snake2.exe
 - run this command using pyinstaller in the chosen folder:
 ```bash
 pyinstaller -F .\src\snake2.py .\src\snake.py .\src\algorithms.py
