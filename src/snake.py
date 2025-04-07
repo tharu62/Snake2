@@ -1,7 +1,7 @@
 from re import A
 from turtle import down, update
 import pygame
-import src.algorithms as algorithms
+import algorithms as algorithms
 from pygame.locals import *
 from enum import Enum
 
