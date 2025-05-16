@@ -9,6 +9,8 @@ The game is already released with the A star algorithm with a launch ready execu
 
 The snake can be controller with arrow keys and the game can be paused with the "p" key.
 
+![Screenshot from 2025-05-16 13-17-58](https://github.com/user-attachments/assets/6f6c30ab-5e04-4e4c-bf3b-dca0141aaf0b)
+
 ## Install
 To build the python executable from source code: 
 - clone this repo in a folder
