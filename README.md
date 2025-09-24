@@ -13,7 +13,7 @@ The snake can be controller with arrow keys and the game can be paused with the 
 ![Screenshot from 2025-05-16 13-17-58](https://github.com/user-attachments/assets/6f6c30ab-5e04-4e4c-bf3b-dca0141aaf0b)
 
 ## Install
-Required : python3 and pygame installed.
+Required : python3 with pygame and pyinstaller modules installed.
 To build the python executable from source code: 
 - clone this repo in a folder
 - delete snake2.exe
