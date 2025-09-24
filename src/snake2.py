@@ -195,9 +195,9 @@ while run:
         #         if yellow_snake.temp_map[i][j] == 0:
         #             pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(i*10+410, j*10, 9, 9))
 
-        # uncomment the type of hunt you want to use
+        # CHOOSE the type of hunt you want to use
         # yellow_snake.hunt(rotten_apple, wall, rotten_forest)
-        # yellow_snake.Dijkstra_hunt(rotten_apple, wall, rotten_forest)
+        #TODO yellow_snake.Dijkstra_hunt(rotten_apple, wall, rotten_forest) 
         yellow_snake.A_star_hunt(rotten_apple, wall, rotten_forest)
 
         if yellow_snake.head.x == rotten_apple.x and yellow_snake.head.y == rotten_apple.y:

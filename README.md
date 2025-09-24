@@ -1,7 +1,8 @@
 # Snake2
-This is the sequel to Snake, it implements all the feature of the original game plus a competitor (on the write part of the screen) controlled by the CPU and a random obstacle generation to raise the difficulty. 
+This is the sequel to Snake, it implements all the feature of the original game plus a competitor controlled by the CPU and a random obstacle generation to raise the difficulty. 
+While the user plays the role of the usual green snake that eats red apples in the forest, the cpu is the evil yellow snake that searches for rotten purple apples in the shady rotten forest. 
 
-The goal is to beat the score of the CPU. The CPU has the possibility of using two types of algorithms for path finding : Dijkstra or A star.
+The goal is to beat the score of the CPU. The CPU has the possibility of using two types of algorithms for path finding.
 
 To set the path finding algorithm it is require to un-comment some code on the Snake2.py file in the main loop of the game.
 
@@ -18,5 +19,5 @@ To build the python executable from source code:
 - delete snake2.exe
 - run this command using pyinstaller in the chosen folder:
 ```bash
-pyinstaller -F .\src\snake2.py .\src\snake.py .\src\algorithms.py
+pyinstaller -F .\src\snake2.py .\src\snake.py .\src\algorithm.py
 ```

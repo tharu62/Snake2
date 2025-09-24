@@ -1,7 +1,7 @@
 from re import A
 from turtle import down, update
 import pygame
-import algorithms as algorithms
+import algorithm as algorithm
 from pygame.locals import *
 from enum import Enum
 
@@ -124,7 +124,7 @@ class Snake():
         src =[self.head.x//10-41, self.head.y//10]
         dest = [apple.x//10-41, apple.y//10]
         self.update_map(wall, forest)
-        next_step = algorithms.a_star_search(self.map, src, dest)
+        next_step = algorithm.a_star_search(self.map, src, dest)
         
         # this piece of code is for testing the A* algorithm and see the path constructed by the algorithm
         # for i in range(0, 41):
@@ -152,7 +152,7 @@ class Snake():
             self.move(Direction.LEFT)
             return
     
-    # Implement the Dijkstra algorithm to find the shortest path to the apple
+    #TODO Implement the Dijkstra algorithm to find the shortest path to the apple
     def Dijkstra_hunt(self, apple, wall, forest):
         return
     
