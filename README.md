@@ -1,5 +1,5 @@
 # Snake2
-This is the sequel to Snake, it implements all the feature of the original game plus a competitor controlled by the CPU and a random obstacle generation to raise the difficulty. 
+This is the sequel to Snake, it implements all the features of the original game plus a competitor controlled by the CPU and a random obstacle generation to raise the difficulty. 
 While the user plays the role of the usual green snake that eats red apples in the forest, the cpu is the evil yellow snake that searches for rotten purple apples in the shady rotten forest. 
 
 The goal is to beat the score of the CPU. The CPU has the possibility of using two types of algorithms for path finding.
